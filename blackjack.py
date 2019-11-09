@@ -189,5 +189,4 @@ def main():
             if c.total < 1:
                 print(" NO MORE MONEY !!! ")
             break
-        print('\n'+' '.ljust(30, '-')
-#FUNCTION BLACKAJACK
+        print('\n'+' '.ljust(30, '-'))
