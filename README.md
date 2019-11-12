@@ -10,7 +10,7 @@ This is just a basic implementation of BlackJack card game in python, Right now 
 2. STAND
 3. BUST
 
---> NOT AVAILABLE <--
+--> NOT AVAILABLE RIGHT NOW <--
 1. SPLIT
 2. DOUBLE DOWN
 3. INSAURANCE
