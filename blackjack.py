@@ -179,12 +179,13 @@ def main():
                     break
             show_all(b.cards, d.cards)                          # Show all cards (both player and dealer)
 
-            push(b, d)
             if player_wins(b, d, c) == True:
                 print(' '+"PLAYER_WINS".center(20, '-'))
             elif dealer_wins(b, d, c) == True:
                 print(' '+"DEALER WINS".center(20, '-'))
-        
+            else:
+                push(b, d)
+           
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or c.total < 1:
             if c.total < 1:
