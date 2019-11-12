@@ -168,21 +168,22 @@ def main():
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
         playing = True
+           
+        if b.value <= 21:                                   # if player hasn't busted
+            d = Hand()
+            d.add_cards(d_cards)                                # Add dealer cards to extract their values
+            while d.value < 17:
+                hits(a, d)                                      # Add new cards to dealer pack too
+                if dealer_bust(d, b, c) == True:
+                    print(str(" -- DEALER --> BUUUSSTTT\n"))
+                    break
+            show_all(b.cards, d.cards)                          # Show all cards (both player and dealer)
 
-        d = Hand()
-        d.add_cards(d_cards)                                # Add dealer cards to extract their values
-        while d.value < 17:
-            hits(a, d)                                      # Add new cards to dealer pack too
-            if dealer_bust(d, b, c) == True:
-                print(str(" -- DEALER --> BUUUSSTTT\n"))
-                break
-        show_all(b.cards, d.cards)                          # Show all cards (both player and dealer)
-
-        push(b, d)
-        if player_wins(b, d, c) == True:
-            print(' '+"PLAYER_WINS".center(20, '-'))
-        elif dealer_wins(b, d, c) == True:
-            print(' '+"DEALER WINS".center(20, '-'))
+            push(b, d)
+            if player_wins(b, d, c) == True:
+                print(' '+"PLAYER_WINS".center(20, '-'))
+            elif dealer_wins(b, d, c) == True:
+                print(' '+"DEALER WINS".center(20, '-'))
         
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or c.total < 1:
