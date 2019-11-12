@@ -14,3 +14,5 @@ This is just a basic implementation of BlackJack card game in python, Right now 
 1. SPLIT
 2. DOUBLE DOWN
 3. INSAURANCE
+
+# IN PROGRESS....
