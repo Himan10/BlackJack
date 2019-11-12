@@ -45,8 +45,8 @@ class Hand:
 
 
     def adjust_for_ace(self):
-        if self.cards[0][1]=='Ace' or self.cards[1][1]=='Ace':
-            if (21-self.value) >= 11:
+        if self.cards[0][1] == 'Ace' or self.cards[1][1] == 'Ace':
+            if 21-self.value >= 11:
                 values['Ace'] = 11
             else:
                 values['Ace'] = 1
@@ -71,7 +71,7 @@ class Chips:
 
 def take_bet(bet_amount, player_money):
     try:
-        while bet_amount>player_money or bet_amount<=0:
+        while bet_amount > player_money or bet_amount <= 0:
             bet_amount = int(input(" Enter amount again : "))
         return bet_amount
 
@@ -110,7 +110,7 @@ def player_bust(obj_h, obj_c):
         return True
     
 def player_wins(obj_h, obj_d, obj_c):
-    if (obj_h.value == 21):
+    if obj_h.value == 21:
         obj_c.win_bet()
         return True
     elif (obj_h.value > obj_d.value and obj_h.value < 21):
@@ -118,13 +118,13 @@ def player_wins(obj_h, obj_d, obj_c):
         return True
 
 def dealer_bust(obj_d, obj_h, obj_c):
-    if (obj_d.value > 21):
-        if (obj_h.value < 21):
+    if obj_d.value > 21:
+        if obj_h.value < 21:
             obj_c.win_bet()
         return True
 
 def dealer_wins(obj_h, obj_d, obj_c):
-    if (obj_d.value == 21):
+    if obj_d.value == 21:
         obj_c.loss_bet()
         return True
     elif (obj_d.value > obj_h.value and obj_d.value < 21):
