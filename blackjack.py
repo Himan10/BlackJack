@@ -46,7 +46,7 @@ class Hand:
 
     def adjust_for_ace(self):
         if self.cards[0][1] == 'Ace' or self.cards[1][1] == 'Ace':
-            if 21-self.value >= 11:
+            if (21-self.value) >= 11:
                 values['Ace'] = 11
             else:
                 values['Ace'] = 1
@@ -89,14 +89,14 @@ def hit_or_stand(obj_de, obj_h, dealer_card):
     choice = str(input(" HIT or STAND : ")).lower()
     if choice == "hit":
         hits(obj_de, obj_h)
-        show_some(obj_h.cards, dealer_card)
+        show_some(obj_h.cards, dealer_card, obj_h)
     else:
         playing = False
 
 
-def show_some(player_cards, dealer_cards):
-    print(f" ----->\n PLAYER CARDS : {player_cards}")
-    print(f" DEALER CARDS : {[dealer_cards[1]]} \n ----->\n")
+def show_some(player_cards, dealer_cards, obj_h):
+    print(f" ----->\n PLAYER CARDS [{obj_h.value}] : {player_cards}")
+    print(f" DEALER CARDS      : {[dealer_cards[1]]} \n ----->\n")
 
 def show_all(player_cards, dealer_cards):
     print(f" ----->\n PLAYER_CARDS : {player_cards}")
@@ -108,7 +108,7 @@ def player_bust(obj_h, obj_c):
     if obj_h.value > 21:
         obj_c.loss_bet()
         return True
-    
+
 def player_wins(obj_h, obj_d, obj_c):
     if obj_h.value == 21:
         obj_c.win_bet()
@@ -153,23 +153,22 @@ def main():
         b = Hand()
         b.add_cards(p_cards)                                # Add player cards to extract their values
 
-        #c = Chips()                                        # Set-up the player chips
         print("\n Total money -> ", c.total)
         bet_money = int(input(" Enter Bet amount : "))      # Prompt for bet amount
         c.bet = take_bet(bet_money, c.total)                # New bet amount
 
 
-        show_some(p_cards, d_cards)                         # Show cards (keep dealer one hidden)
+        show_some(p_cards, d_cards, b)                      # Show cards (keep dealer one hidden)
         global playing
         while playing:                                      # Recall var. from hit and stand function
             hit_or_stand(a, b, d_cards)                     # Prompt for hit or stand   
-            #show_some(b.cards, d_cards)                    # Show cards (keep dealer one hidden)
+            b.adjust_for_ace()
             if player_bust(b, c) == True:                   # Calling function player bust
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
         playing = True
-           
-        if b.value <= 21:                                   # if player hasn't busted
+        
+        if b.value <= 21:                                       # if player hasn't busted
             d = Hand()
             d.add_cards(d_cards)                                # Add dealer cards to extract their values
             while d.value < 17:
@@ -179,13 +178,12 @@ def main():
                     break
             show_all(b.cards, d.cards)                          # Show all cards (both player and dealer)
 
+            push(b, d)
             if player_wins(b, d, c) == True:
                 print(' '+"PLAYER_WINS".center(20, '-'))
             elif dealer_wins(b, d, c) == True:
                 print(' '+"DEALER WINS".center(20, '-'))
-            else:
-                push(b, d)
-           
+        
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or c.total < 1:
             if c.total < 1:
