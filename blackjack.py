@@ -7,12 +7,12 @@ playing = True
 
 class Card:
 
-    def __init__(self, suits, ranks):
-        self.suits = suits
-        self.ranks = ranks
+    def __init__(self, suit, rank):
+        self.suit = suit
+        self.rank = rank
 
-    def __str__(self, card):
-        return self.ranks[card] + ' of ' + self.suits[card]
+    def __str__(self):
+        return self.rank + ' of ' + self.suit
 
 class Deck:
 
