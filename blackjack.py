@@ -163,7 +163,7 @@ def main():
         while playing:                                      # Recall var. from hit and stand function
             hit_or_stand(a, b, d_cards)                     # Prompt for hit or stand   
             b.adjust_for_ace()
-            if player_bust(b, c) == True:                   # Calling function player bust
+            if player_bust(b, c):                           # Calling function player bust
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
         playing = True
@@ -173,15 +173,15 @@ def main():
             d.add_cards(d_cards)                                # Add dealer cards to extract their values
             while d.value < 17:
                 hits(a, d)                                      # Add new cards to dealer pack too
-                if dealer_bust(d, b, c) == True:
+                if dealer_bust(d, b, c):
                     print(str(" -- DEALER --> BUUUSSTTT\n"))
                     break
             show_all(b.cards, d.cards)                          # Show all cards (both player and dealer)
 
             push(b, d)
-            if player_wins(b, d, c) == True:
+            if player_wins(b, d, c):
                 print(' '+"PLAYER_WINS".center(20, '-'))
-            elif dealer_wins(b, d, c) == True:
+            elif dealer_wins(b, d, c):
                 print(' '+"DEALER WINS".center(20, '-'))
         
         ans = str(input(" Play again(YES/NO) : ")).lower()
