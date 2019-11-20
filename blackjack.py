@@ -170,7 +170,7 @@ def main():
         global playing
         while playing:                                      # Recall var. from hit and stand function
             hit_or_stand(a, b, d_cards)                     # Prompt for hit or stand   
-            b.adjust_for_ace()
+            #b.adjust_for_ace()
             if player_bust(b, c):                           # Calling function player bust
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
