@@ -28,7 +28,15 @@ class Deck:
     def deal_cards(self):
         self.player = random.sample(self.deck, 2)
         self.dealer = random.sample(self.deck, 2)
+        self.delete_cards(self.player + self.dealer)
         return self.player, self.dealer
+    
+    def delete_cards(self, total_cards):
+        try:
+            for i in total_cards:
+                self.deck.remove(i)
+        except ValueError:
+            pass
 
 
 class Hand:
@@ -96,7 +104,7 @@ def hit_or_stand(obj_de, obj_h, dealer_card):
 
 def show_some(player_cards, dealer_cards, obj_h):
     print(f" ----->\n PLAYER CARDS [{obj_h.value}] : {player_cards}")
-    print(f" DEALER CARDS      : {[dealer_cards[1]]} \n ----->\n")
+    print(f" DEALER CARDS [{values[dealer_catds[1][1]]}] : {[dealer_cards[1]]} \n ----->\n")
 
 def show_all(player_cards, dealer_cards):
     print(f" ----->\n PLAYER_CARDS : {player_cards}")
