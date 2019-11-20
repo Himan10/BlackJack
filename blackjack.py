@@ -98,8 +98,10 @@ def hit_or_stand(obj_de, obj_h, dealer_card):
     if choice == "hit":
         hits(obj_de, obj_h)
         show_some(obj_h.cards, dealer_card, obj_h)
-    else:
+    elif choice == "stand":
         playing = False
+    else:
+        print(" --INVALID CHOICE-- ")
 
 
 def show_some(player_cards, dealer_cards, obj_h):
