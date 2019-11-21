@@ -57,9 +57,9 @@ class Deck:
 
     def deal_cards(self):
         self.player = random.sample(self.deck, 2)
-        self.delete_cards(self.player)  # Delete Player Drawn Cards
+        self.delete_cards(self.player)
         self.dealer = random.sample(self.deck, 2)
-        self.delete_cards(self.dealer)  # Delete Dealer Drawn Cards
+        self.delete_cards(self.dealer)  # Delete Drawn Cards
         return self.player, self.dealer
 
     def delete_cards(self, total_drawn):
@@ -154,10 +154,7 @@ def player_bust(obj_h, obj_c):
 
 
 def player_wins(obj_h, obj_d, obj_c):
-    if obj_h.value == 21:
-        obj_c.win_bet()
-        return True
-    elif obj_h.value > obj_d.value and obj_h.value < 21:
+    if any((obj_h.value == 21, obj_h.value > obj_d.value and obj_h.value < 21)):
         obj_c.win_bet()
         return True
 
@@ -170,17 +167,14 @@ def dealer_bust(obj_d, obj_h, obj_c):
 
 
 def dealer_wins(obj_h, obj_d, obj_c):
-    if obj_d.value == 21:
-        obj_c.loss_bet()
-        return True
-    elif obj_d.value > obj_h.value and obj_d.value < 21:
+    if any((obj_d.value == 21, obj_d.value > obj_h.value and obj_d.value < 21)):
         obj_c.loss_bet()
         return True
 
 
 def push(obj_h, obj_d):
     if obj_h.value == obj_d.value:
-        print("\n " + "PUSH".center(10, "-"))
+        return True
 
 
 def greet():
@@ -194,49 +188,47 @@ def greet():
 
 def main():
     greet()
-    player_chips = Chips()
+    p_chips = Chips()
     while True:
         cards_deck = Deck()
         cards_deck.shuffle()
         p_cards, d_cards = cards_deck.deal_cards()
-
-        player_hand = Hand()
-        player_hand.add_cards(p_cards)
-
-        print("\n Total money -> ", player_chips.total)
+        p_hand = Hand()
+        p_hand.add_cards(p_cards)
+        print("\n Total money -> ", p_chips.total)
         bet_money = int(input(" Enter Bet amount : "))
-        player_chips.bet = take_bet(bet_money, player_chips.total)
+        p_chips.bet = take_bet(bet_money, p_chips.total)
 
-        show_some(p_cards, d_cards, player_hand)
+        show_some(p_cards, d_cards, p_hand)
         global PLAYING
-        while PLAYING:
-            hit_or_stand(cards_deck, player_hand, d_cards)
-            if player_bust(player_hand, player_chips):
+        while PLAYING:  # Recall var. from hit and stand function
+            hit_or_stand(cards_deck, p_hand, d_cards)
+            if player_bust(p_hand, p_chips):
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
 
         PLAYING = True
 
-        if player_hand.value <= 21:
-            dealer_hand = Hand()
-            dealer_hand.add_cards(d_cards)
-            while dealer_hand.value < 17:
-                hits(cards_deck, dealer_hand)
-                if dealer_bust(dealer_hand, player_hand, player_chips):
+        if p_hand.value <= 21:
+            d_hand = Hand()
+            d_hand.add_cards(d_cards)
+            while d_hand.value < 17:
+                hits(cards_deck, d_hand)
+                if dealer_bust(d_hand, p_hand, p_chips):
                     print(str(" -- DEALER --> BUUUSSTTT\n"))
                     break
-            show_all(player_hand.cards, dealer_hand.cards, player_hand, dealer_hand)
+            show_all(p_hand.cards, d_hand.cards, p_hand, d_hand)
 
-            if player_wins(player_hand, dealer_hand, player_chips):
+            if push(p_hand, d_hand):
+                print("\n " + "PUSH".center(10, "-"))
+            elif player_wins(p_hand, d_hand, p_chips):
                 print(" " + "PLAYER_WINS".center(20, "-"))
-            elif dealer_wins(player_hand, dealer_hand, player_chips):
+            elif dealer_wins(p_hand, d_hand, p_chips):
                 print(" " + "DEALER WINS".center(20, "-"))
-            else:
-                push(player_hand, dealer_hand)
 
         ans = str(input(" Play again(YES/NO) : ")).lower()
-        if ans != "yes" or player_chips.total < 1:
-            if player_chips.total < 1:
+        if ans != "yes" or p_chips.total < 1:
+            if p_chips.total < 1:
                 print(" NO MORE MONEY !!! ")
             break
         print("\n" + " ".ljust(30, "-"))
