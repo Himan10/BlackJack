@@ -153,10 +153,9 @@ def greet():
 
 def main():
     greet()
-    a = Deck()                                              # Creating a Deck
     c = Chips()                                             # Setting up Chips
     while True:
-        
+        a = Deck()                                          # Creating a Deck
         a.shuffle()                                         # shuffle the deck
         p_cards, d_cards = a.deal_cards()                   # deal cards
 
