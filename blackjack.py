@@ -153,49 +153,51 @@ def greet():
 
 def main():
     greet()
-    c = Chips()                                             # Setting up Chips
+    player_chips = Chips()                                                  # Setting up Chips
     while True:
-        a = Deck()                                          # Creating a Deck
-        a.shuffle()                                         # shuffle the deck
-        p_cards, d_cards = a.deal_cards()                   # deal cards
+        cards_deck = Deck()
+        cards_deck.shuffle()                                                # shuffle the deck
+        p_cards, d_cards = cards_deck.deal_cards()                          # deal cards
 
-        b = Hand()
-        b.add_cards(p_cards)                                # Add player cards to extract their values
+        player_hand = Hand()
+        player_hand.add_cards(p_cards)                                      # Add player cards to extract their VALUES
 
-        print("\n Total money -> ", c.total)
-        bet_money = int(input(" Enter Bet amount : "))      # Prompt for bet amount
-        c.bet = take_bet(bet_money, c.total)                # New bet amount
+        print("\n Total money -> ", player_chips.total)
+        bet_money = int(input(" Enter Bet amount : "))                      # Prompt for bet amount
+        player_chips.bet = take_bet(bet_money, player_chips.total)          # New bet amount
 
 
-        show_some(p_cards, d_cards, b)                      # Show cards (keep dealer one hidden)
-        global playing
-        while playing:                                      # Recall var. from hit and stand function
-            hit_or_stand(a, b, d_cards)                     # Prompt for hit or stand   
-            #b.adjust_for_ace()
-            if player_bust(b, c):                           # Calling function player bust
+        show_some(p_cards, d_cards, player_hand)                            # Show cards (keep dealer one hidden)
+        global PLAYING
+        while PLAYING:                                                      # Recall var. from hit and stand function
+            hit_or_stand(cards_deck, player_hand, d_cards)                  # Prompt for hit or stand   
+            player_hand.adjust_for_ace()
+            if player_bust(player_hand, player_chips):                      # Calling function player bust
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
-        playing = True
+        PLAYING = True
         
-        if b.value <= 21:                                       # if player hasn't busted
-            d = Hand()
-            d.add_cards(d_cards)                                # Add dealer cards to extract their values
-            while d.value < 17:
-                hits(a, d)                                      # Add new cards to dealer pack too
-                if dealer_bust(d, b, c):
+        if player_hand.value <= 21:                                         # if player hasn't busted
+            dealer_hand = Hand()
+            dealer_hand.add_cards(d_cards)                                  # Add dealer cards to extract their VALUES
+            while dealer_hand.value < 17:
+                hits(cards_deck, dealer_hand)                               # Add new cards to dealer pack too
+                dealer_hand.adjust_for_ace()
+                if dealer_bust(dealer_hand, player_hand, player_chips):
                     print(str(" -- DEALER --> BUUUSSTTT\n"))
                     break
-            show_all(b.cards, d.cards)                          # Show all cards (both player and dealer)
+            show_all(player_hand.cards, dealer_hand.cards)                  # Show all cards (both player and dealer)
 
-            push(b, d)
-            if player_wins(b, d, c):
+            if player_wins(player_hand, dealer_hand, player_chips):
                 print(' '+"PLAYER_WINS".center(20, '-'))
-            elif dealer_wins(b, d, c):
+            elif dealer_wins(player_hand, dealer_hand, player_chips):
                 print(' '+"DEALER WINS".center(20, '-'))
+            else:
+                push(player_hand, dealer_hand)
         
         ans = str(input(" Play again(YES/NO) : ")).lower()
-        if ans != "yes" or c.total < 1:
-            if c.total < 1:
+        if ans != "yes" or player_chips.total < 1:
+            if player_chips.total < 1:
                 print(" NO MORE MONEY !!! ")
             break
         print('\n'+' '.ljust(30, '-'))
