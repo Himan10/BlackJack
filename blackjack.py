@@ -57,9 +57,9 @@ class Deck:
 
     def deal_cards(self):
         self.player = random.sample(self.deck, 2)
-        self.delete_cards(self.player)
+        self.delete_cards(self.player)  # Delete Player Drawn Cards
         self.dealer = random.sample(self.deck, 2)
-        self.delete_cards(self.dealer)  # Delete Drawn Cards
+        self.delete_cards(self.dealer)  # Delete Dealer Drawn Cards
         return self.player, self.dealer
 
     def delete_cards(self, total_drawn):
@@ -194,34 +194,34 @@ def greet():
 
 def main():
     greet()
-    player_chips = Chips()  # Setting up Chips
+    player_chips = Chips()
     while True:
         cards_deck = Deck()
-        cards_deck.shuffle()  # shuffle the deck
-        p_cards, d_cards = cards_deck.deal_cards()  # deal cards
+        cards_deck.shuffle()
+        p_cards, d_cards = cards_deck.deal_cards()
 
         player_hand = Hand()
-        player_hand.add_cards(p_cards)  # Add player cards to extract their VALUES
+        player_hand.add_cards(p_cards)
 
         print("\n Total money -> ", player_chips.total)
-        bet_money = int(input(" Enter Bet amount : "))  # Prompt for bet amount
-        player_chips.bet = take_bet(bet_money, player_chips.total)  # New bet amount
+        bet_money = int(input(" Enter Bet amount : "))
+        player_chips.bet = take_bet(bet_money, player_chips.total)
 
-        show_some(p_cards, d_cards, player_hand)  # Show cards (keep dealer one hidden)
+        show_some(p_cards, d_cards, player_hand)
         global PLAYING
-        while PLAYING:  # Recall var. from hit and stand function
-            hit_or_stand(cards_deck, player_hand, d_cards)  # Prompt for hit or stand
-            if player_bust(player_hand, player_chips):  # Calling function player bust
+        while PLAYING:
+            hit_or_stand(cards_deck, player_hand, d_cards)
+            if player_bust(player_hand, player_chips):
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
 
         PLAYING = True
 
-        if player_hand.value <= 21:  # if player hasn't busted
+        if player_hand.value <= 21:
             dealer_hand = Hand()
-            dealer_hand.add_cards(d_cards)  # Add dealer cards to extract their VALUES
+            dealer_hand.add_cards(d_cards)
             while dealer_hand.value < 17:
-                hits(cards_deck, dealer_hand)  # Add new cards to dealer pack too
+                hits(cards_deck, dealer_hand)
                 if dealer_bust(dealer_hand, player_hand, player_chips):
                     print(str(" -- DEALER --> BUUUSSTTT\n"))
                     break
