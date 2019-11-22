@@ -151,12 +151,14 @@ def player_bust(obj_h, obj_c):
     if obj_h.value > 21:
         obj_c.loss_bet()
         return True
+    return False
 
 
 def player_wins(obj_h, obj_d, obj_c):
     if any((obj_h.value == 21, obj_h.value > obj_d.value and obj_h.value < 21)):
         obj_c.win_bet()
         return True
+    return False
 
 
 def dealer_bust(obj_d, obj_h, obj_c):
@@ -164,17 +166,20 @@ def dealer_bust(obj_d, obj_h, obj_c):
         if obj_h.value < 21:
             obj_c.win_bet()
         return True
+    return False
 
 
 def dealer_wins(obj_h, obj_d, obj_c):
     if any((obj_d.value == 21, obj_d.value > obj_h.value and obj_d.value < 21)):
         obj_c.loss_bet()
         return True
+    return False
 
 
 def push(obj_h, obj_d):
     if obj_h.value == obj_d.value:
         return True
+    return False
 
 
 def greet():
@@ -186,7 +191,36 @@ def greet():
     )
 
 
+def greet2(p_count, d_count, draw_c):
+    print(" " + "".center(30, "_"))
+    print(
+        "|" + "__PLAYER__".ljust(7, " ") + "|",
+        "_DEALER__".center(7, " ") + "|",
+        "_DRAW__".rjust(7, " ") + "|",
+        sep="_",
+    )
+    print(
+        "|"
+        + "".center(10, " ")
+        + "|"
+        + "".center(10, " ")
+        + "|"
+        + "".center(8, " ")
+        + "|"
+    )
+    print(
+        "|"
+        + p_count.center(10, "_")
+        + "|"
+        + d_count.center(10, "_")
+        + "|"
+        + draw_c.center(8, "_")
+        + "|"
+    )
+
+
 def main():
+    p_win, d_win, draw = 0, 0, 0
     greet()
     p_chips = Chips()
     while True:
@@ -204,6 +238,7 @@ def main():
         while PLAYING:  # Recall var. from hit and stand function
             hit_or_stand(cards_deck, p_hand, d_cards)
             if player_bust(p_hand, p_chips):
+                d_win += 1
                 print(str(" -- PLAYER --> BUUUSSTTT"))
                 break
 
@@ -215,17 +250,23 @@ def main():
             while d_hand.value < 17:
                 hits(cards_deck, d_hand)
                 if dealer_bust(d_hand, p_hand, p_chips):
+                    p_win += 1
                     print(str(" -- DEALER --> BUUUSSTTT\n"))
                     break
             show_all(p_hand.cards, d_hand.cards, p_hand, d_hand)
 
             if push(p_hand, d_hand):
+                draw += 1
                 print("\n " + "PUSH".center(10, "-"))
             elif player_wins(p_hand, d_hand, p_chips):
+                p_win += 1
                 print(" " + "PLAYER_WINS".center(20, "-"))
             elif dealer_wins(p_hand, d_hand, p_chips):
+                d_win += 1
                 print(" " + "DEALER WINS".center(20, "-"))
 
+        greet2(str(p_win), str(d_win), str(draw))
+        print("\n")
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or p_chips.total < 1:
             if p_chips.total < 1:
