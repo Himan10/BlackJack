@@ -123,13 +123,17 @@ def hits(obj_de, obj_h):
     obj_h.add_cards(new_card)
 
 
-def hit_or_stand(obj_de, obj_h, dealer_card):
+def blackj_options(p_chips, obj_de, obj_h, dealer_card):
     global PLAYING
-    choice = str(input(" HIT or STAND : ")).lower()
+    choice = str(input("[ HIT | STAND | DOUBLE_DOWN ] : ")).lower()
     if choice == "hit":
         hits(obj_de, obj_h)
         show_some(obj_h.cards, dealer_card, obj_h)
     elif choice == "stand":
+        PLAYING = False
+    elif choice == "double":
+        p_chips.bet = p_chips.bet * 2
+        hits(obj_de, obj_h)
         PLAYING = False
     else:
         print(" --Invalid Choice-- ")
@@ -240,10 +244,11 @@ def main():
         show_some(p_cards, d_cards, p_hand)
         global PLAYING
         while PLAYING:  # Recall var. from hit and stand function
-            hit_or_stand(cards_deck, p_hand, d_cards)
+            blackj_options(p_chips, cards_deck, p_hand, d_cards)
             if player_bust(p_hand, p_chips):
                 d_win += 1
-                print(str(" -- PLAYER --> BUUUSSTTT"))
+                print(" -- PLAYER --> BUUUSSTTT")
+                print(f" -- BET A. --> {p_chips.bet}")
                 break
 
         PLAYING = True
@@ -255,7 +260,7 @@ def main():
                 hits(cards_deck, d_hand)
                 if dealer_bust(d_hand, p_hand, p_chips):
                     p_win += 1
-                    print(str(" -- DEALER --> BUUUSSTTT\n"))
+                    print(" -- DEALER --> BUUUSSTTT\n")
                     break
             show_all(p_hand.cards, d_hand.cards, p_hand, d_hand)
 
