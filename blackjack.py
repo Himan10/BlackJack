@@ -133,7 +133,7 @@ def blackj_options(p_chips, obj_de, obj_h, dealer_card):
         PLAYING = False
     elif choice == "double":
         if p_chips.bet * 2 <= p_chips.total:
-            p_chips *= 2
+            p_chips.bet *= 2
             hits(obj_de, obj_h)
             PLAYING = False
         else:
