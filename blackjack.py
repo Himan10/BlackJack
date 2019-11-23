@@ -1,4 +1,5 @@
 import random
+from os import system, name
 
 SUITS = ("Hearts", "Diamonds", "Spades", "Clubs")
 RANKS = (
@@ -181,6 +182,9 @@ def push(obj_h, obj_d):
         return True
     return False
 
+
+def clear_screen():
+    system('cls' if name == 'nt' else 'clear')
 
 def greet():
     print(" " + "".center(40, "_"), "|" + "".center(40, " ") + "|", sep="\n")
