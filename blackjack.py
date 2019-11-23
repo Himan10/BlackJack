@@ -132,11 +132,14 @@ def blackj_options(p_chips, obj_de, obj_h, dealer_card):
     elif choice == "stand":
         PLAYING = False
     elif choice == "double":
-        p_chips.bet = p_chips.bet * 2
-        hits(obj_de, obj_h)
-        PLAYING = False
+        if p_chips.bet * 2 <= p_chips.total:
+            p_chips *= 2
+            hits(obj_de, obj_h)
+            PLAYING = False
+        else:
+            print(" --You can't Double Down, Money isn't Enough--")
     else:
-        print(" --Invalid Choice-- ")
+        print(" --Invalid Choice--")
 
 
 def show_some(player_cards, dealer_cards, obj_h):
@@ -240,6 +243,7 @@ def main():
         print("\n Total money -> ", p_chips.total)
         bet_money = int(input(" Enter Bet amount : "))
         p_chips.bet = take_bet(bet_money, p_chips.total)
+        print('\n')
 
         show_some(p_cards, d_cards, p_hand)
         global PLAYING
@@ -247,8 +251,7 @@ def main():
             blackj_options(p_chips, cards_deck, p_hand, d_cards)
             if player_bust(p_hand, p_chips):
                 d_win += 1
-                print(" -- PLAYER --> BUUUSSTTT")
-                print(f" -- BET A. --> {p_chips.bet}")
+                print("\n -- PLAYER --> BUUUSSTTT")
                 break
 
         PLAYING = True
@@ -260,7 +263,7 @@ def main():
                 hits(cards_deck, d_hand)
                 if dealer_bust(d_hand, p_hand, p_chips):
                     p_win += 1
-                    print(" -- DEALER --> BUUUSSTTT\n")
+                    print("\n -- DEALER --> BUUUSSTTT\n")
                     break
             show_all(p_hand.cards, d_hand.cards, p_hand, d_hand)
 
@@ -275,7 +278,7 @@ def main():
                 print(" " + "DEALER WINS".center(20, "-"))
 
         #greet2(str(p_win), str(d_win), str(draw))      # Score board location -> bottom
-        print("\n")
+        print(f"\n BET AMOUNT : {p_chips.bet} \n")
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or p_chips.total < 1:
             if p_chips.total < 1:
