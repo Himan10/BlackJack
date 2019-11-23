@@ -269,11 +269,13 @@ def main():
                 d_win += 1
                 print(" " + "DEALER WINS".center(20, "-"))
 
-        greet2(str(p_win), str(d_win), str(draw))
+        #greet2(str(p_win), str(d_win), str(draw))      # Score board location -> bottom
         print("\n")
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or p_chips.total < 1:
             if p_chips.total < 1:
                 print(" NO MORE MONEY !!! ")
             break
+        clear_screen()
+        greet2(str(p_win), str(d_win), str(draw))   # Score board location -> Top
         print("\n" + " ".ljust(30, "-"))
