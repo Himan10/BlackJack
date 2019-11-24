@@ -125,12 +125,20 @@ def hits(obj_de, obj_h):
 
 def blackj_options(p_chips, obj_de, obj_h, dealer_card):
     global PLAYING
-    choice = str(input("[ HIT | STAND | DOUBLE_DOWN ] : ")).lower()
+    choice = str(input("[ HIT | STAND | SURRENDER | DOUBLE ] : ")).lower()
+    print("\n")
     if choice == "hit":
         hits(obj_de, obj_h)
         show_some(obj_h.cards, dealer_card, obj_h)
+
     elif choice == "stand":
         PLAYING = False
+
+    elif choice == "surrender":
+        p_chips.bet = p_chips.bet // 2
+        PLAYING = False
+        obj_h.value += 21
+
     elif choice == "double":
         if p_chips.bet * 2 <= p_chips.total:
             p_chips.bet *= 2
@@ -154,7 +162,10 @@ def show_all(player_cards, dealer_cards, obj_h, obj_d):
     print(f" DEALER_CARDS [{obj_d.value}] : {dealer_cards} \n ----->\n")
 
 
+########################################
 # End game Scenarios
+
+
 def player_bust(obj_h, obj_c):
     if obj_h.value > 21:
         obj_c.loss_bet()
@@ -190,8 +201,17 @@ def push(obj_h, obj_d):
     return False
 
 
+def player_surrender(obj_c):
+    obj_c.loss_bet()
+    return True
+
+
+#######################################
+
+
 def clear_screen():
-    system('cls' if name == 'nt' else 'clear')
+    system("cls" if name == "nt" else "clear")
+
 
 def greet():
     print(" " + "".center(40, "_"), "|" + "".center(40, " ") + "|", sep="\n")
@@ -243,7 +263,7 @@ def main():
         print("\n Total money -> ", p_chips.total)
         bet_money = int(input(" Enter Bet amount : "))
         p_chips.bet = take_bet(bet_money, p_chips.total)
-        print('\n')
+        print("\n")
 
         show_some(p_cards, d_cards, p_hand)
         global PLAYING
@@ -269,21 +289,25 @@ def main():
 
             if push(p_hand, d_hand):
                 draw += 1
-                print("\n " + "PUSH".center(10, "-"))
+                print("\n " + " PUSH ".center(12, "-"))
             elif player_wins(p_hand, d_hand, p_chips):
                 p_win += 1
-                print(" " + "PLAYER_WINS".center(20, "-"))
+                print(" " + " PLAYER_WINS ".center(22, "-"))
             elif dealer_wins(p_hand, d_hand, p_chips):
                 d_win += 1
-                print(" " + "DEALER WINS".center(20, "-"))
+                print(" " + " DEALER WINS ".center(22, "-"))
 
-        #greet2(str(p_win), str(d_win), str(draw))      # Score board location -> bottom
-        print(f"\n BET AMOUNT : {p_chips.bet} \n")
+        else:
+            d_win += 1
+            print("\n " + " DEALER WINS ".center(22, "-"))
+
+        print(f"\n >>> Money You've left now >>> {p_chips.total} \n")
+        
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or p_chips.total < 1:
             if p_chips.total < 1:
                 print(" NO MORE MONEY !!! ")
             break
         clear_screen()
-        greet2(str(p_win), str(d_win), str(draw))   # Score board location -> Top
+        greet2(str(p_win), str(d_win), str(draw))  # Score board location -> Top
         print("\n" + " ".ljust(30, "-"))
