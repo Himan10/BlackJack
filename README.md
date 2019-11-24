@@ -8,7 +8,7 @@ This is just a basic implementation of BlackJack card game in python, Right now 
 --> AVAILABLE IN THE GAME <--
 1. HIT
 2. STAND
-3. BUST
+3. SURRENDER
 4. DOUBLE DOWN
 
 --> NOT AVAILABLE RIGHT NOW <--
