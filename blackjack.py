@@ -45,6 +45,9 @@ class Card:
 
 
 class Deck:
+    """ Creating a Deck of cards and
+    Deal two cards to both player and dealer. """
+    
     def __init__(self):
         self.deck = []
         self.player = []
@@ -64,6 +67,8 @@ class Deck:
         return self.player, self.dealer
 
     def delete_cards(self, total_drawn):
+        """ Delete Drawn cards from the Decks """
+        
         try:
             for i in total_drawn:
                 self.deck.remove(i)
@@ -72,6 +77,9 @@ class Deck:
 
 
 class Hand:
+    """ Adding the values of player/dealer cards 
+    and change the values of Aces acc. to situation. """
+    
     def __init__(self):
         self.cards = []
         self.value = 0
@@ -93,6 +101,9 @@ class Hand:
 
 
 class Chips:
+    """ Player/dealer chips for making bets
+    and Adding/Deducting amount in/from Player's total. """
+    
     def __init__(self):
         self.total = 100
         self.bet = 0
