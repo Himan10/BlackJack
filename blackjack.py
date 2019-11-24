@@ -309,7 +309,6 @@ def main():
                 print(" " + " DEALER WINS ".center(22, "-"))
 
         else:
-            d_win += 1
             print("\n " + " DEALER WINS ".center(22, "-"))
 
         print(f"\n >>> Money You've left now >>> {p_chips.total} \n")
