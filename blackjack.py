@@ -321,3 +321,6 @@ def main():
         clear_screen()
         greet2(str(p_win), str(d_win), str(draw))  # Score board location -> Top
         print("\n" + " ".ljust(30, "-"))
+
+        
+main()
