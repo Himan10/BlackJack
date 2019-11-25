@@ -14,5 +14,3 @@ This is just a basic implementation of BlackJack card game in python, Right now 
 --> NOT AVAILABLE RIGHT NOW <--
 1. SPLIT
 2. INSAURANCE
-
-# IN PROGRESS....
