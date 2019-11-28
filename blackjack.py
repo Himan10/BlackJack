@@ -311,7 +311,7 @@ def main():
         else:
             print("\n " + " DEALER WINS ".center(22, "-"))
 
-        print(f"\n >>> Money You've left now >>> {p_chips.total} \n")
+        print(f"\n >>> Available Money >>> {p_chips.total} \n")
         
         ans = str(input(" Play again(YES/NO) : ")).lower()
         if ans != "yes" or p_chips.total < 1:
