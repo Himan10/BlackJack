@@ -91,12 +91,10 @@ class Hand:
             self.adjust_for_ace()
             self.value += VALUES[ele[1]]
 
-    def adjust_for_ace(self):
-        if self.cards[0][1] == "Ace" or self.cards[1][1] == "Ace":
-            if (21 - self.value) >= 11:
-                VALUES["Ace"] = 11
-            else:
-                VALUES["Ace"] = 1
+    def adjust_for_ace(self, x):
+        if x[0][1] == "Ace":
+            if (self.value + VALUES['Ace']) > 21:
+                self.value -= 10
         self.aces += 1
 
 
@@ -131,6 +129,7 @@ def take_bet(bet_amount, player_money):
 def hits(obj_de, obj_h):
     new_card = obj_de.deal_cards()[0][0]
     new_card = [new_card]
+    obj_h.adjust_for_ace(new_card)
     obj_h.add_cards(new_card)
 
 
