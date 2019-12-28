@@ -88,7 +88,6 @@ class Hand:
     def add_cards(self, card):
         self.cards.extend(card)
         for count, ele in enumerate(card, 0):
-            self.adjust_for_ace()
             self.value += VALUES[ele[1]]
 
     def adjust_for_ace(self, x):
