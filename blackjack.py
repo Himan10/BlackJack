@@ -88,13 +88,15 @@ class Hand:
     def add_cards(self, card):
         self.cards.extend(card)
         for count, ele in enumerate(card, 0):
+            if ele[1] == 'Ace':
+                self.aces += 1
             self.value += VALUES[ele[1]]
+        self.adjust_for_ace()
 
-    def adjust_for_ace(self, x):
-        if x[0][1] == "Ace":
-            if (self.value + VALUES['Ace']) > 21:
-                self.value -= 10
-        self.aces += 1
+    def adjust_for_ace(self):
+        while self.aces > 0 and self.value > 21:
+            self.value -= 10
+            self.aces -= 1
 
 
 class Chips:
@@ -128,7 +130,6 @@ def take_bet(bet_amount, player_money):
 def hits(obj_de, obj_h):
     new_card = obj_de.deal_cards()[0][0]
     new_card = [new_card]
-    obj_h.adjust_for_ace(new_card)
     obj_h.add_cards(new_card)
 
 
