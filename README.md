@@ -17,4 +17,4 @@ This is just a basic implementation of BlackJack card game in python, Right now 
 
 # NEW UPDATES
 1. ACE Value shrink according to BLACKJACK rules for Adjusting ace value.
-2. WIN/LOSE Rate of performing 'HIT' calls.
+2. WIN/LOSE percentage of performing 'HIT' calls (still need to configure for 'ACE' calls).
