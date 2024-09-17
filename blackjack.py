@@ -306,22 +306,16 @@ def main():
         print("\n")
 
         show_some(p_cards, d_cards, p_hand)
-        # check for blackjack
-        if p_hand.value == 21:
-            print("\n -- PLAYER --> BLAAAACKJACKKKK")
-            p_chips.total += p_chips.bet * 1.5
-            p_win += 1
-            print(f"\n >>> Available Money >>> {p_chips.total} \n")
-            ans = str(input(" Play again(YES/NO) : ")).lower()
-            if "y" not in ans or p_chips.total < 1:
-                if p_chips.total < 1:
-                    print(" NO MORE MONEY !!! ")
-                break
-            clear_screen()
-            greet2(str(p_win), str(d_win), str(draw))
-
+        
         global PLAYING
         while PLAYING:  # Recall var. from hit and stand function
+            # check for blackjack
+            p_hand.value = 21
+            if p_hand.value == 21:
+                print("\n -- PLAYER --> BLAAAACKJACKKKK")
+                p_chips.total += round(p_chips.bet * 1.5)
+                break
+
             blackj_options(p_chips, cards_deck, p_hand, d_cards)
             if player_bust(p_hand, p_chips):
                 d_win += 1
