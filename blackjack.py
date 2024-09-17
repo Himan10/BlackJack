@@ -310,7 +310,6 @@ def main():
         global PLAYING
         while PLAYING:  # Recall var. from hit and stand function
             # check for blackjack
-            p_hand.value = 21
             if p_hand.value == 21:
                 print("\n -- PLAYER --> BLAAAACKJACKKKK")
                 p_chips.total += round(p_chips.bet * 1.5)
