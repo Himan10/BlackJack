@@ -182,17 +182,24 @@ def blackj_options(p_chips, obj_de, obj_h, dealer_card):
     else:
         print(" --Invalid Choice--")
 
+def display_hand(hand): # Display the cards in the hand nicely
+    d = "" # display
+    for card in hand:
+        d += f"{card[1]} of {card[0]}"
+        if card != hand[-1]:
+            d += ", "
+    return d
 
 def show_some(player_cards, dealer_cards, obj_h):
-    print(f" ----->\n PLAYER CARDS [{obj_h.value}] : {player_cards}")
+    print(f" ----->\n PLAYER CARDS [{obj_h.value}] : {display_hand(player_cards)}")
     print(
-        f" DEALER CARDS [{VALUES[dealer_cards[1][1]]}] : {[dealer_cards[1]]} \n ----->\n"
+        f" DEALER CARDS [{VALUES[dealer_cards[1][1]]}] : {dealer_cards[1][1]} of {dealer_cards[1][0]} \n ----->\n"
     )
 
 
 def show_all(player_cards, dealer_cards, obj_h, obj_d):
-    print(f" ----->\n PLAYER_CARDS [{obj_h.value}] : {player_cards}")
-    print(f" DEALER_CARDS [{obj_d.value}] : {dealer_cards} \n ----->\n")
+    print(f" ----->\n PLAYER_CARDS [{obj_h.value}] : {display_hand(player_cards)}")
+    print(f" DEALER_CARDS [{obj_d.value}] : {display_hand(dealer_cards)} \n ----->\n")
 
 
 ########################################
@@ -299,8 +306,15 @@ def main():
         print("\n")
 
         show_some(p_cards, d_cards, p_hand)
+        
         global PLAYING
         while PLAYING:  # Recall var. from hit and stand function
+            # check for blackjack
+            if p_hand.value == 21:
+                print("\n -- PLAYER --> BLAAAACKJACKKKK")
+                p_chips.total += round(p_chips.bet * 1.5)
+                break
+
             blackj_options(p_chips, cards_deck, p_hand, d_cards)
             if player_bust(p_hand, p_chips):
                 d_win += 1
@@ -337,7 +351,7 @@ def main():
         print(f"\n >>> Available Money >>> {p_chips.total} \n")
 
         ans = str(input(" Play again(YES/NO) : ")).lower()
-        if ans != "yes" or p_chips.total < 1:
+        if "y" not in ans or p_chips.total < 1:
             if p_chips.total < 1:
                 print(" NO MORE MONEY !!! ")
             break
